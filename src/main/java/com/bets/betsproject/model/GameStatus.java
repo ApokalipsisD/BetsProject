@@ -1,25 +1,28 @@
 package com.bets.betsproject.model;
 
-import java.util.Arrays;
-import java.util.Objects;
+import jakarta.persistence.Column;
+import jakarta.persistence.Entity;
+import jakarta.persistence.GeneratedValue;
+import jakarta.persistence.GenerationType;
+import jakarta.persistence.Id;
+import jakarta.persistence.Table;
+import lombok.Data;
+import lombok.NoArgsConstructor;
 
-public enum GameStatus {
-    COMING(1), LIVE(2), FINISHED(3);
+@Data
+@Entity
+@Table(name = "game_status")
+@NoArgsConstructor
+public class GameStatus {
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    Integer id;
 
-    private final Integer id;
+    @Column(name = "name", nullable = false)
+    String name;
 
-    GameStatus(Integer id) {
-        this.id = id;
+    public GameStatus(String name) {
+        this.name = name;
     }
 
-    public Integer getId() {
-        return id;
-    }
-
-    public static GameStatus getById(Integer id) {
-        return Arrays.stream(GameStatus.values())
-                .filter(role -> Objects.equals(role.getId(), id))
-                .findFirst()
-                .orElse(null);
-    }
 }
