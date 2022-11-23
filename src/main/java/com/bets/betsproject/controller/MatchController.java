@@ -17,7 +17,7 @@ import org.springframework.web.bind.annotation.RestController;
 import java.util.List;
 
 @RestController
-@RequestMapping("/match")
+@RequestMapping("/matches")
 public class MatchController {
     private final MatchService matchService;
 
@@ -32,7 +32,8 @@ public class MatchController {
 
     @GetMapping
     public List<Match> getAllMatches() {
-        return matchService.getAllMatches();
+        List<Match> list = matchService.getAllMatches();
+        return list;
     }
 
     @GetMapping("{id}")

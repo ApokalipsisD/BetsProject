@@ -41,7 +41,6 @@ package com.bets.betsproject.controller;
 
 import com.bets.betsproject.config.CustomUserDetailsService;
 import com.bets.betsproject.config.JWTGenerator;
-import com.bets.betsproject.exception.ResourceNotFoundException;
 import com.bets.betsproject.model.User;
 import com.bets.betsproject.model.jwt.JwtRequest;
 import com.bets.betsproject.model.jwt.JwtResponse;
@@ -81,15 +80,10 @@ public class AuthenticateController {
     @PostMapping("login")
     public ResponseEntity<JwtRequest> login(@RequestBody(required = false) JwtResponse jwtResponse) throws Exception {
         Authentication authentication;
-        try {
-            authentication = authenticationManager.authenticate(
-                    new UsernamePasswordAuthenticationToken(
-                            jwtResponse.getLogin(),
-                            jwtResponse.getPassword()));
-        } catch (ResourceNotFoundException e) {
-            e.printStackTrace();
-            throw new Exception("User not found");
-        }
+        authentication = authenticationManager.authenticate(
+                new UsernamePasswordAuthenticationToken(
+                        jwtResponse.getLogin(),
+                        jwtResponse.getPassword()));
 
         SecurityContextHolder.getContext().setAuthentication(authentication);
         String token = jwtGenerator.generateToken(authentication);
