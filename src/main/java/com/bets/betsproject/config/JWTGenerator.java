@@ -15,13 +15,13 @@ public class JWTGenerator {
 
     public String generateToken(Authentication authentication) {
         String login = ((User) authentication.getPrincipal()).getLogin();
-        Date currentDate = new Date();
-        Date expireDate = new Date(currentDate.getTime() + SecurityConstants.JWT_EXPIRATION);
+//        Date currentDate = new Date();
+//        Date expireDate = new Date(currentDate.getTime() + SecurityConstants.JWT_EXPIRATION);
 
         String token = Jwts.builder()
                 .setSubject(login)
                 .setIssuedAt(new Date())
-                .setExpiration(expireDate)
+//                .setExpiration(expireDate)
                 .signWith(SignatureAlgorithm.HS256, SecurityConstants.JWT_SECRET)
                 .compact();
         return token;
