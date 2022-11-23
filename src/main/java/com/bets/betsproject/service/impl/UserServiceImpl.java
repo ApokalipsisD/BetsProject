@@ -7,6 +7,7 @@ import com.bets.betsproject.service.api.UserService;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
+import java.util.Optional;
 
 @Service
 //@Transactional
@@ -63,13 +64,13 @@ public class UserServiceImpl implements UserService {
 //    }
 
     @Override
-    public User getByLogin(String login) {
-//        User user = userRepository.findByLogin(login);
-//        if (Objects.isNull(user)) {
+    public Optional<User> getByLogin(String login) {
+        //        if (user == null) {
 //            throw new ResourceNotFoundException("User", "Login", login);
 //        }
-//        return user;
-        return null;
+        return userRepository.findByLogin(login);
+//        return userRepository.findByLogin(login).orElseThrow(() -> new ResourceNotFoundException("User", "Login", login));
+
 //        return userRepository.findByLogin(login).orElseThrow(() -> new ResourceNotFoundException("User", "Login", login));
     }
 

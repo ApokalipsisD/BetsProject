@@ -44,8 +44,8 @@ public class MatchServiceImpl implements MatchService {
         newMatch.setFirstTeamScore(team.getFirstTeamScore());
         newMatch.setSecondTeamScore(newMatch.getSecondTeamScore());
         newMatch.setDate(team.getDate());
-        newMatch.setStatusId(team.getStatusId());
-        newMatch.setGameId(team.getGameId());
+        newMatch.setStatus(team.getStatus());
+        newMatch.setGame(team.getGame());
         return newMatch;
     }
 
