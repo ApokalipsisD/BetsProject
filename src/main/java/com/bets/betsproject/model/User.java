@@ -2,6 +2,7 @@ package com.bets.betsproject.model;
 
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
+import jakarta.persistence.FetchType;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
@@ -14,13 +15,12 @@ import jakarta.validation.constraints.Max;
 import jakarta.validation.constraints.Pattern;
 import lombok.Data;
 import org.springframework.security.core.GrantedAuthority;
-import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 
 import java.math.BigDecimal;
 import java.util.Collection;
-import java.util.List;
-
+import java.util.Collections;
+//@JsonDeserialize(as=UserDetails.class)
 @Data
 @Entity(name = "user_account")
 @Table(name = "user_account")
@@ -56,60 +56,10 @@ public class User implements UserDetails {
     @Digits(integer = 10, fraction = 2, message = "Invalid balance")
     private BigDecimal balance;
 
-//    @Column(name = "role_id")
-//    private Integer roleId;
-//    @Basic
-//    @ManyToOne
-//    @JoinColumn(name = "role_id")
-    @ManyToOne
+    @ManyToOne(fetch = FetchType.EAGER)
     @JoinColumn(name = "role_id")
     private Role role;
 
-
-//    @Transient
-//    private Role role;
-//
-//    @PostLoad
-//    void fillTransient() {
-//        if (roleId > 0) {
-//            this.role = Role.of(roleId);
-//        }
-//    }
-//
-//    @PrePersist
-//    void fillPersistent() {
-//        if (role != null) {
-//            this.roleId = role.getId();
-//        }
-//    }
-
-//    public Integer getRoleId() {
-//        return roleId;
-//    }
-//
-//    public Role getRole() {
-//        return role;
-//    }
-
-//    private Integer role_id;
-//
-//    @Transient
-//    @Column(name = "role")
-//    private Role role;
-//
-//    @PostLoad
-//    void fillTransient() {
-//        if (role_id > 0) {
-//            this.role = Role.of(role_id);
-//        }
-//    }
-//
-//    @PrePersist
-//    void fillPersistent() {
-//        if (role != null) {
-//            this.role_id = role.getId();
-//        }
-//    }
 
     public User() {
     }
@@ -165,24 +115,13 @@ public class User implements UserDetails {
         this.role = role;
     }
 
-    @Override
-    public String toString() {
-        return "User{" +
-                "id=" + id +
-                ", login='" + login + '\'' +
-                ", password='" + password + '\'' +
-                ", name='" + name + '\'' +
-                ", surname='" + surname + '\'' +
-                ", age=" + age +
-                ", email='" + email + '\'' +
-                ", balance=" + balance +
-                ", role=" + role +
-                '}';
-    }
+
+
 
     @Override
     public Collection<? extends GrantedAuthority> getAuthorities() {
-        return List.of(new SimpleGrantedAuthority("ROLE_USER"));
+//        return List.of(new SimpleGrantedAuthority("ROLE_USER"));
+        return Collections.emptyList();
     }
 
     @Override

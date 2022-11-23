@@ -52,13 +52,16 @@ public class Match {
     @Temporal(TemporalType.TIMESTAMP)
     private Timestamp date;
 
-    @Column(name = "status_id", nullable = false)
-    private Integer statusId;
+//    @Column(name = "status_id", nullable = false)
+    @ManyToOne
+    @JoinColumn(name = "status_id")
+    private GameStatus status;
 
 //    @Column(name = "game_id", nullable = false)
 //    @Enumerated(EnumType.ORDINAL)
-    @Column(name="game_id")
-    private Integer gameId;
+    @ManyToOne
+    @JoinColumn(name = "game_id")
+    private Game game;
 
 //    public Match(Integer firstTeam, Integer secondTeam, BigDecimal firstCoefficient, BigDecimal secondCoefficient, Integer firstTeamScore, Integer secondTeamScore, Timestamp date, Integer statusId, Integer gameId) {
 //        this.firstTeam = firstTeam;
@@ -73,7 +76,7 @@ public class Match {
 //    }
 
 
-    public Match(Team firstTeam, Team secondTeam, BigDecimal firstCoefficient, BigDecimal secondCoefficient, Integer firstTeamScore, Integer secondTeamScore, Timestamp date, Integer statusId, Integer gameId) {
+    public Match(Team firstTeam, Team secondTeam, BigDecimal firstCoefficient, BigDecimal secondCoefficient, Integer firstTeamScore, Integer secondTeamScore, Timestamp date, GameStatus statusId, Game gameId) {
         this.firstTeam = firstTeam;
         this.secondTeam = secondTeam;
         this.firstCoefficient = firstCoefficient;
@@ -81,7 +84,20 @@ public class Match {
         this.firstTeamScore = firstTeamScore;
         this.secondTeamScore = secondTeamScore;
         this.date = date;
-        this.statusId = statusId;
-        this.gameId = gameId;
+        this.status = statusId;
+        this.game = gameId;
+    }
+
+    public Match(Integer id, Team firstTeam, Team secondTeam, BigDecimal firstCoefficient, BigDecimal secondCoefficient, Integer firstTeamScore, Integer secondTeamScore, Timestamp date, GameStatus statusId, Game gameId) {
+        this.id = id;
+        this.firstTeam = firstTeam;
+        this.secondTeam = secondTeam;
+        this.firstCoefficient = firstCoefficient;
+        this.secondCoefficient = secondCoefficient;
+        this.firstTeamScore = firstTeamScore;
+        this.secondTeamScore = secondTeamScore;
+        this.date = date;
+        this.status = statusId;
+        this.game = gameId;
     }
 }
