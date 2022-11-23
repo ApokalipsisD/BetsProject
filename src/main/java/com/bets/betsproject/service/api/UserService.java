@@ -3,6 +3,7 @@ package com.bets.betsproject.service.api;
 import com.bets.betsproject.model.User;
 
 import java.util.List;
+import java.util.Optional;
 
 public interface UserService {
     User saveUser(User user);
@@ -17,7 +18,7 @@ public interface UserService {
 
 //    User checkIfLoginFree(String login);
 
-    User getByLogin(String login);
+    Optional<User> getByLogin(String login);
 
 //    User updateUserBalance(Connection connection, User user);
 }
