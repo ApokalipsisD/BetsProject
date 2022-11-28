@@ -147,10 +147,10 @@ public class SecurityConfig implements WebMvcConfigurer {
                 .sessionManagement()
                 .sessionCreationPolicy(SessionCreationPolicy.STATELESS)
                 .and()
-                .authorizeHttpRequests()
-                .requestMatchers("/auth/**", "/user/**", "/matches/**").permitAll()
-                .anyRequest().authenticated()
-                .and()
+//                .authorizeHttpRequests()
+//                .requestMatchers("/auth/**", "/user/**", "/matches/**", "/bet/**").permitAll()
+//                .anyRequest().authenticated()
+//                .and()
                 .httpBasic();
 
         http.addFilterBefore(jwtAuthenticationFilter(), UsernamePasswordAuthenticationFilter.class);
@@ -169,7 +169,7 @@ public class SecurityConfig implements WebMvcConfigurer {
     }
 
     @Bean
-    public  JWTAuthenticationFilter jwtAuthenticationFilter() {
+    public JWTAuthenticationFilter jwtAuthenticationFilter() {
         return new JWTAuthenticationFilter();
     }
 }
