@@ -16,7 +16,6 @@ public class TeamServiceImpl implements TeamService {
         this.teamRepository = teamRepository;
     }
 
-
     @Override
     public Team saveTeam(Team team) {
         return teamRepository.save(team);
@@ -46,5 +45,10 @@ public class TeamServiceImpl implements TeamService {
     public void deleteTeam(Integer id) {
         teamRepository.findById(id).orElseThrow(() -> new ResourceNotFoundException("Team", "Id", id));
         teamRepository.deleteById(id);
+    }
+
+    @Override
+    public Team getByTeamName(String name) {
+        return teamRepository.findByTeamName(name);
     }
 }

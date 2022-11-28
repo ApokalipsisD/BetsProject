@@ -10,7 +10,6 @@ import java.util.List;
 
 @Service
 public class GameStatusServiceImpl implements GameStatusService {
-
     private final GameStatusRepository statusRepository;
 
     public GameStatusServiceImpl(GameStatusRepository statusRepository) {

@@ -58,25 +58,9 @@ public class UserServiceImpl implements UserService {
         userRepository.deleteById(id);
     }
 
-//    @Override
-//    public User checkIfLoginFree(String login) {
-//        return userRepository.checkIfLoginFree(login);
-//    }
-
     @Override
     public Optional<User> getByLogin(String login) {
-        //        if (user == null) {
-//            throw new ResourceNotFoundException("User", "Login", login);
-//        }
         return userRepository.findByLogin(login);
-//        return userRepository.findByLogin(login).orElseThrow(() -> new ResourceNotFoundException("User", "Login", login));
-
-//        return userRepository.findByLogin(login).orElseThrow(() -> new ResourceNotFoundException("User", "Login", login));
     }
 
-//    User user = userRepository.findByLogin(login);
-//        if (Objects.isNull(user)) {
-//        throw new ResourceNotFoundException("User", "Login", login);
-//    }
-//        return user;
 }

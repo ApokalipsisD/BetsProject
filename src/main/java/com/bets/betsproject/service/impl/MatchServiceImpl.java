@@ -46,6 +46,8 @@ public class MatchServiceImpl implements MatchService {
         newMatch.setDate(team.getDate());
         newMatch.setStatus(team.getStatus());
         newMatch.setGame(team.getGame());
+
+        matchRepository.save(team);
         return newMatch;
     }
 

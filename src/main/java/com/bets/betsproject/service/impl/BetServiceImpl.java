@@ -4,7 +4,9 @@ import com.bets.betsproject.exception.ResourceNotFoundException;
 import com.bets.betsproject.model.Bet;
 import com.bets.betsproject.repository.BetRepository;
 import com.bets.betsproject.service.api.BetService;
+import com.bets.betsproject.service.api.UserService;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
 
@@ -12,19 +14,33 @@ import java.util.List;
 public class BetServiceImpl implements BetService {
 
     private final BetRepository betRepository;
+    private final UserService userService;
 
-    public BetServiceImpl(BetRepository betRepository) {
+    public BetServiceImpl(BetRepository betRepository, UserService userService) {
         this.betRepository = betRepository;
+        this.userService = userService;
     }
 
+    @Transactional
     @Override
     public Bet saveBet(Bet bet) {
+        userService.updateUser(bet.getUser(), bet.getUser().getId());
         return betRepository.save(bet);
     }
 
     @Override
     public List<Bet> getAllBets() {
         return betRepository.findAll();
+    }
+
+    @Override
+    public List<Bet> getBetsByUserId(Integer userId) {
+        return betRepository.findBetsByUserId(userId);
+    }
+
+    @Override
+    public List<Bet> getBetsByMatchId(Integer matchId) {
+        return betRepository.findBetsByMatchId(matchId);
     }
 
     @Override
@@ -35,10 +51,17 @@ public class BetServiceImpl implements BetService {
     }
 
     @Override
+    public Bet getBetByUserAndMatchId(Integer userId, Integer matchId) {
+        return betRepository.findBetByUserIdAndMatchId(userId, matchId);
+    }
+
+    @Transactional
+    @Override
     public Bet updateBet(Bet bet, Integer id) {
+        userService.updateUser(bet.getUser(), bet.getUser().getId());
         Bet newBet = betRepository.findById(id).orElseThrow(() -> new ResourceNotFoundException("Bet", "Id", id));
-        newBet.setUserId(bet.getUserId());
-        newBet.setMatchId(bet.getMatchId());
+        newBet.setUser(bet.getUser());
+        newBet.setMatch(bet.getMatch());
         newBet.setBet(bet.getBet());
         newBet.setTeam(bet.getTeam());
         newBet.setCoefficient(bet.getCoefficient());
@@ -56,12 +79,13 @@ public class BetServiceImpl implements BetService {
     }
 
     @Override
+    public void deleteBetsByUserId(Integer userId) {
+        betRepository.deleteBetsByUserId(userId);
+    }
+
+    @Override
     public void deleteBetByUserAndMatchId(Integer userId, Integer matchId) {
         betRepository.deleteBetByUserAndMatchId(userId, matchId);
     }
 
-//    @Override
-//    public void deleteBetByUserId(Integer userId) {
-//        betRepository.deleteBetByUserId(userId);
-//    }
 }
