@@ -1,7 +1,8 @@
 package com.bets.betsproject.controller;
 
-import com.bets.betsproject.exception.UserFoundException;
+import com.bets.betsproject.exception.ResourceNotFoundException;
 import com.bets.betsproject.model.User;
+import com.bets.betsproject.service.api.BetService;
 import com.bets.betsproject.service.api.RoleService;
 import com.bets.betsproject.service.api.UserService;
 import org.springframework.http.HttpStatus;
@@ -29,26 +30,23 @@ import java.util.Optional;
 @CrossOrigin("*")
 public class UserController {
     private final UserService userService;
-
-    //todo change to service
     private final RoleService roleService;
-
+    private final BetService betService;
     PasswordEncoder passwordEncoder;
 
-    public UserController(UserService userService, RoleService roleService, PasswordEncoder passwordEncoder) {
+    public UserController(UserService userService, RoleService roleService, BetService betService, PasswordEncoder passwordEncoder) {
         this.userService = userService;
         this.roleService = roleService;
+        this.betService = betService;
         this.passwordEncoder = passwordEncoder;
     }
 
     @PostMapping()
-    public ResponseEntity<User> createUser(@RequestBody User user) throws UserFoundException {
+    public ResponseEntity<User> createUser(@RequestBody User user) {
         Optional<User> local = userService.getByLogin(user.getLogin());
-        if(local.isPresent()){
-            System.out.println("User is already here");
-            throw new UserFoundException("User with this login is already exists in DB");
-        }
-        else {
+        if (local.isPresent()) {
+            throw new ResourceNotFoundException("User is already exists");
+        } else {
             user.setPassword(passwordEncoder.encode(user.getPassword()));
             user.setBalance(BigDecimal.valueOf(0).setScale(2, RoundingMode.HALF_UP));
             user.setRole(roleService.getRoleById(1));
@@ -63,38 +61,25 @@ public class UserController {
         return userService.getAllUsers();
     }
 
-
-
     @GetMapping("{id}")
     public ResponseEntity<User> getUserById(@PathVariable("id") Integer id) {
-        return new ResponseEntity<User>(userService.getUserById(id), HttpStatus.OK);
+        return new ResponseEntity<>(userService.getUserById(id), HttpStatus.OK);
     }
-
-
 
     @PutMapping("{id}")
     public ResponseEntity<User> updateUser(@PathVariable("id") Integer id,
                                            @RequestBody User user) {
-//        System.out.println(id);
-//        System.out.println(user);
-        return new ResponseEntity<User>(userService.updateUser(user, id), HttpStatus.OK);
+        return new ResponseEntity<>(userService.updateUser(user, id), HttpStatus.OK);
     }
-
-
 
     @DeleteMapping("{id}")
     public ResponseEntity<Map<String, Boolean>> deleteUser(@PathVariable("id") Integer id) {
+
+        betService.deleteBetsByUserId(id);
+
         userService.deleteUser(id);
         Map<String, Boolean> response = new HashMap<>();
         response.put("deleted", Boolean.TRUE);
         return new ResponseEntity<>(response, HttpStatus.OK);
     }
-
-
-
-//    @GetMapping("{id}")
-//    public ResponseEntity<User> getUserByLogin(@PathVariable("id") Integer id) {
-//        return new ResponseEntity<User>(userService.getUserById(id), HttpStatus.OK);
-//    }
-
 }
