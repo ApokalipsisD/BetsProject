@@ -16,9 +16,6 @@ public interface UserService {
 
     void deleteUser(Integer id);
 
-//    User checkIfLoginFree(String login);
-
     Optional<User> getByLogin(String login);
 
-//    User updateUserBalance(Connection connection, User user);
 }

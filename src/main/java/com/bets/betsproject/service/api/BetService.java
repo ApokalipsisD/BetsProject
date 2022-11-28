@@ -9,15 +9,20 @@ public interface BetService {
 
     List<Bet> getAllBets();
 
+    List<Bet> getBetsByUserId(Integer userId);
+
+    List<Bet> getBetsByMatchId(Integer matchId);
+
     Bet getBetById(Integer id);
+
+    Bet getBetByUserAndMatchId(Integer userId, Integer matchId);
 
     Bet updateBet(Bet bet, Integer id);
 
     void deleteBet(Integer id);
 
+    void deleteBetsByUserId(Integer userId);
+
     void deleteBetByUserAndMatchId(Integer userId, Integer matchId);
-
-//    void deleteBetByUserId(Integer userId);
-
 
 }

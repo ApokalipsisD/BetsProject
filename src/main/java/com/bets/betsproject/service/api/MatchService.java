@@ -15,5 +15,4 @@ public interface MatchService {
 
     void deleteMatch(Integer id);
 
-    //todo ask for 1 method update for all entity and for field
 }

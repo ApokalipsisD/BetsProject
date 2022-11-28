@@ -14,4 +14,6 @@ public interface TeamService {
     Team updateTeam(Team team, Integer id);
 
     void deleteTeam(Integer id);
+
+    Team getByTeamName(String name);
 }
