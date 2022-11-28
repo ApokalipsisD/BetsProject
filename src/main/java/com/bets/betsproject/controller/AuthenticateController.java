@@ -1,44 +1,5 @@
 package com.bets.betsproject.controller;
 
-//@RestController
-//public class AuthenticateController {
-//
-//    @Autowired
-//    private AuthenticationManager authenticationManager;
-//
-//    @Autowired
-//    private UserDetailsServiceImpl userDetailsService;
-//
-//    @Autowired
-//    private JwtUtil jwtUtil;
-//
-//    @PostMapping("/generate-token")
-//    public ResponseEntity<?> generateToken(@RequestBody JwtRequest jwtRequest) throws Exception {
-//        try {
-//            authenticate(jwtRequest.getLogin(), jwtRequest.getPassword());
-//        } catch (ResourceNotFoundException e){
-//            e.printStackTrace();
-//            throw new Exception("User not found ");
-//        }
-//
-//        UserDetails userDetails = this.userDetailsService.loadUserByUsername(jwtRequest.getLogin());
-//        String token = this.jwtUtil.generateToken(userDetails);
-//        return ResponseEntity.ok(new JwtResponse(token));
-//    }
-//
-//
-//
-//    public void authenticate(String login, String password) throws Exception {
-//        try {
-//            authenticationManager.authenticate(new UsernamePasswordAuthenticationToken(login, password));
-//        } catch (DisabledException e) {
-//            throw new Exception("USER DISABLED " + e.getMessage());
-//        } catch (BadCredentialsException e) {
-//            throw new Exception("Invalid Credentials " + e.getMessage());
-//        }
-//    }
-//}
-
 import com.bets.betsproject.config.CustomUserDetailsService;
 import com.bets.betsproject.config.JWTGenerator;
 import com.bets.betsproject.model.User;
@@ -76,9 +37,8 @@ public class AuthenticateController {
         this.customUserDetailsService = customUserDetailsService;
     }
 
-    //    @RequestMapping(value = "/login", method = { RequestMethod.GET, RequestMethod.POST })
     @PostMapping("login")
-    public ResponseEntity<JwtRequest> login(@RequestBody(required = false) JwtResponse jwtResponse) throws Exception {
+    public ResponseEntity<JwtRequest> login(@RequestBody(required = false) JwtResponse jwtResponse) {
         Authentication authentication;
         authentication = authenticationManager.authenticate(
                 new UsernamePasswordAuthenticationToken(
@@ -92,34 +52,6 @@ public class AuthenticateController {
 
     @GetMapping("current-user")
     public User getCurrentUser(Principal principal) {
-        System.out.println(principal.getName());
         return (User) this.customUserDetailsService.loadUserByUsername(principal.getName());
     }
-//    @GetMapping("current-user")
-//    public ResponseEntity<User> getCurrentUser(Principal principal) {
-//        System.out.println(principal.getName());
-//
-//        return new ResponseEntity<>(userRepository.findByLogin(principal.getName())
-//                .orElseThrow(() -> new UsernameNotFoundException("Username not found")), HttpStatus.OK);
-//    }
-
 }
-
-//    @PostMapping("register")
-//    public ResponseEntity<String> register(@RequestBody RegisterDto registerDto) {
-//        if (userRepository.existsByUsername(registerDto.getUsername())) {
-//            return new ResponseEntity<>("Username is taken!", HttpStatus.BAD_REQUEST);
-//        }
-//
-//        UserEntity user = new UserEntity();
-//        user.setUsername(registerDto.getUsername());
-//        user.setPassword(passwordEncoder.encode((registerDto.getPassword())));
-//
-//        Role roles = roleRepository.findByName("USER").get();
-//        user.setRoles(Collections.singletonList(roles));
-//
-//        userRepository.save(user);
-//
-//        return new ResponseEntity<>("User registered success!", HttpStatus.OK);
-//    }
-//}
