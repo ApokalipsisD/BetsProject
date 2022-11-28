@@ -17,7 +17,6 @@ import lombok.NoArgsConstructor;
 @Table(name = "role")
 @NoArgsConstructor
 public class Role {
-//    USER(1), ADMIN(2);
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -30,20 +29,4 @@ public class Role {
         this.name = name;
     }
 
-    //    public static Role getById(Integer id) {
-//        return Arrays.stream(Role.values())
-//                .filter(role -> Objects.equals(role.getId(), id))
-//                .findFirst()
-//                .orElse(null);
-//    }
-//    public static List<Role> valuesAsList() {
-//        return Arrays.asList(values());
-//    }
-//
-//    public static Role of(Integer roleId) {
-//        return Stream.of(Role.values())
-//                .filter(p -> Objects.equals(p.getId(), roleId))
-//                .findFirst()
-//                .orElseThrow(IllegalArgumentException::new);
-//    }
 }

@@ -1,25 +1,33 @@
 package com.bets.betsproject.model;
 
-import java.util.Arrays;
-import java.util.Objects;
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+import jakarta.persistence.Column;
+import jakarta.persistence.Entity;
+import jakarta.persistence.GeneratedValue;
+import jakarta.persistence.GenerationType;
+import jakarta.persistence.Id;
+import jakarta.persistence.Table;
+import lombok.Data;
+import lombok.NoArgsConstructor;
 
-public enum BetStatus {
-    WIN(1), LOSE(2), EXPECTING(3);
+//@JsonDeserialize(as= Bet.class)
 
-    private final Integer id;
+@JsonIgnoreProperties({"hibernateLazyInitializer"})
+@Data
+@Entity
+@Table(name = "bet_status")
+@NoArgsConstructor
+public class BetStatus {
 
-    BetStatus(Integer id) {
-        this.id = id;
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    Integer id;
+
+    @Column(name = "name", nullable = false)
+    String name;
+
+    public BetStatus(String name) {
+        this.name = name;
     }
 
-    public Integer getId() {
-        return id;
-    }
-
-    public static BetStatus getById(Integer id) {
-        return Arrays.stream(BetStatus.values())
-                .filter(role -> Objects.equals(role.getId(), id))
-                .findFirst()
-                .orElse(null);
-    }
 }

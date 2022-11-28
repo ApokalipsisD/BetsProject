@@ -24,5 +24,4 @@ public class GameStatus {
     public GameStatus(String name) {
         this.name = name;
     }
-
 }
