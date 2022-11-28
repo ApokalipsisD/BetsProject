@@ -15,12 +15,14 @@ import jakarta.validation.constraints.Max;
 import jakarta.validation.constraints.Pattern;
 import lombok.Data;
 import org.springframework.security.core.GrantedAuthority;
+import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 
 import java.math.BigDecimal;
 import java.util.Collection;
-import java.util.Collections;
-//@JsonDeserialize(as=UserDetails.class)
+import java.util.List;
+
+
 @Data
 @Entity(name = "user_account")
 @Table(name = "user_account")
@@ -64,35 +66,6 @@ public class User implements UserDetails {
     public User() {
     }
 
-//    public User(String login, String password, BigDecimal balance, Integer roleId) {
-//        this.login = login;
-//        this.password = password;
-//        this.balance = balance;
-//        this.role = Role.getById(roleId);
-//    }
-
-//    public User(String login, String password, String name, String surname, Integer age, String email, BigDecimal balance, Integer roleId) {
-//        this.login = login;
-//        this.password = password;
-//        this.name = name;
-//        this.surname = surname;
-//        this.age = age;
-//        this.email = email;
-//        this.balance = balance;
-//        this.role = Role.getById(roleId);
-//    }
-
-//    public User(Integer id, String login, String password, String name, String surname, Integer age, String email, BigDecimal balance, Integer roleId) {
-//        this.id = id;
-//        this.login = login;
-//        this.password = password;
-//        this.name = name;
-//        this.surname = surname;
-//        this.age = age;
-//        this.email = email;
-//        this.balance = balance;
-//        this.role = Role.getById(roleId);
-//    }
     public User(Integer id, String login, String password, String name, String surname, Integer age, String email, BigDecimal balance, Role role) {
         this.id = id;
         this.login = login;
@@ -104,6 +77,7 @@ public class User implements UserDetails {
         this.balance = balance;
         this.role = role;
     }
+
     public User(String login, String password, String name, String surname, Integer age, String email, BigDecimal balance, Role role) {
         this.login = login;
         this.password = password;
@@ -116,12 +90,9 @@ public class User implements UserDetails {
     }
 
 
-
-
     @Override
     public Collection<? extends GrantedAuthority> getAuthorities() {
-//        return List.of(new SimpleGrantedAuthority("ROLE_USER"));
-        return Collections.emptyList();
+        return List.of(new SimpleGrantedAuthority("ROLE_USER"));
     }
 
     @Override

@@ -1,5 +1,6 @@
 package com.bets.betsproject.model;
 
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
@@ -15,7 +16,7 @@ import lombok.NoArgsConstructor;
 
 import java.math.BigDecimal;
 import java.sql.Timestamp;
-
+@JsonIgnoreProperties({"hibernateLazyInitializer", "handler"})
 @Data
 @Entity
 @Table(name = "match")
@@ -26,12 +27,10 @@ public class Match {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Integer id;
 
-//    @Column(name = "team_1", nullable = false)
     @ManyToOne
     @JoinColumn(name = "team_1")
     private Team firstTeam;
 
-//    @Column(name = "team_2", nullable = false)
     @ManyToOne
     @JoinColumn(name = "team_2")
     private Team secondTeam;
@@ -42,41 +41,26 @@ public class Match {
     @Column(name = "coefficient_2", nullable = false)
     private BigDecimal secondCoefficient;
 
-    @Column(name = "score_1", nullable = false)
+    @Column(name = "score_1")
     private Integer firstTeamScore;
 
-    @Column(name = "score_2", nullable = false)
+    @Column(name = "score_2")
     private Integer secondTeamScore;
 
     @Column(name = "date", nullable = false)
     @Temporal(TemporalType.TIMESTAMP)
     private Timestamp date;
 
-//    @Column(name = "status_id", nullable = false)
     @ManyToOne
     @JoinColumn(name = "status_id")
     private GameStatus status;
 
-//    @Column(name = "game_id", nullable = false)
-//    @Enumerated(EnumType.ORDINAL)
+
     @ManyToOne
     @JoinColumn(name = "game_id")
     private Game game;
 
-//    public Match(Integer firstTeam, Integer secondTeam, BigDecimal firstCoefficient, BigDecimal secondCoefficient, Integer firstTeamScore, Integer secondTeamScore, Timestamp date, Integer statusId, Integer gameId) {
-//        this.firstTeam = firstTeam;
-//        this.secondTeam = secondTeam;
-//        this.firstCoefficient = firstCoefficient;
-//        this.secondCoefficient = secondCoefficient;
-//        this.firstTeamScore = firstTeamScore;
-//        this.secondTeamScore = secondTeamScore;
-//        this.date = date;
-//        this.statusId = statusId;
-//        this.gameId = gameId;
-//    }
-
-
-    public Match(Team firstTeam, Team secondTeam, BigDecimal firstCoefficient, BigDecimal secondCoefficient, Integer firstTeamScore, Integer secondTeamScore, Timestamp date, GameStatus statusId, Game gameId) {
+    public Match(Team firstTeam, Team secondTeam, BigDecimal firstCoefficient, BigDecimal secondCoefficient, Integer firstTeamScore, Integer secondTeamScore, Timestamp date, GameStatus status, Game game) {
         this.firstTeam = firstTeam;
         this.secondTeam = secondTeam;
         this.firstCoefficient = firstCoefficient;
@@ -84,11 +68,11 @@ public class Match {
         this.firstTeamScore = firstTeamScore;
         this.secondTeamScore = secondTeamScore;
         this.date = date;
-        this.status = statusId;
-        this.game = gameId;
+        this.status = status;
+        this.game = game;
     }
 
-    public Match(Integer id, Team firstTeam, Team secondTeam, BigDecimal firstCoefficient, BigDecimal secondCoefficient, Integer firstTeamScore, Integer secondTeamScore, Timestamp date, GameStatus statusId, Game gameId) {
+    public Match(Integer id, Team firstTeam, Team secondTeam, BigDecimal firstCoefficient, BigDecimal secondCoefficient, Integer firstTeamScore, Integer secondTeamScore, Timestamp date, GameStatus status, Game game) {
         this.id = id;
         this.firstTeam = firstTeam;
         this.secondTeam = secondTeam;
@@ -97,7 +81,7 @@ public class Match {
         this.firstTeamScore = firstTeamScore;
         this.secondTeamScore = secondTeamScore;
         this.date = date;
-        this.status = statusId;
-        this.game = gameId;
+        this.status = status;
+        this.game = game;
     }
 }

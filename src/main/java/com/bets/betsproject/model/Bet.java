@@ -1,5 +1,6 @@
 package com.bets.betsproject.model;
 
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
@@ -22,11 +23,15 @@ public class Bet {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Integer id;
 
-    @Column(name = "user_id", nullable = false)
-    private Integer userId;
+    @JsonIgnoreProperties({"hibernateLazyInitializer", "handler"})
+    @ManyToOne
+    @JoinColumn(name = "user_id")
+    private User user;
 
-    @Column(name = "match_id", nullable = false)
-    private Integer matchId;
+    @JsonIgnoreProperties({"hibernateLazyInitializer", "handler"})
+    @ManyToOne
+    @JoinColumn(name = "match_id")
+    private Match match;
 
     @Column(name = "bet", nullable = false)
     private BigDecimal bet;
@@ -38,24 +43,25 @@ public class Bet {
     @Column(name = "coefficient", nullable = false)
     private BigDecimal coefficient;
 
-    @Column(name = "bet_status_id", nullable = false)
-    private Integer betStatus;
+    @ManyToOne
+    @JoinColumn(name = "bet_status_id")
+    private BetStatus betStatus;
 
     @Column(name = "earnings")
     private BigDecimal earnings;
 
-    public Bet(Integer userId, Integer matchId, BigDecimal bet, Team team, BigDecimal coefficient, Integer betStatus) {
-        this.userId = userId;
-        this.matchId = matchId;
+    public Bet(User user, Match match, BigDecimal bet, Team team, BigDecimal coefficient, BetStatus betStatus) {
+        this.user = user;
+        this.match = match;
         this.bet = bet;
         this.team = team;
         this.coefficient = coefficient;
         this.betStatus = betStatus;
     }
 
-    public Bet(Integer userId, Integer matchId, BigDecimal bet, Team team, BigDecimal coefficient, Integer betStatus, BigDecimal earnings) {
-        this.userId = userId;
-        this.matchId = matchId;
+    public Bet(User user, Match match, BigDecimal bet, Team team, BigDecimal coefficient, BetStatus betStatus, BigDecimal earnings) {
+        this.user = user;
+        this.match = match;
         this.bet = bet;
         this.team = team;
         this.coefficient = coefficient;
@@ -63,10 +69,10 @@ public class Bet {
         this.earnings = earnings;
     }
 
-    public Bet(Integer id, Integer userId, Integer matchId, BigDecimal bet, Team team, BigDecimal coefficient, Integer betStatus, BigDecimal earnings) {
+    public Bet(Integer id, User user, Match match, BigDecimal bet, Team team, BigDecimal coefficient, BetStatus betStatus, BigDecimal earnings) {
         this.id = id;
-        this.userId = userId;
-        this.matchId = matchId;
+        this.user = user;
+        this.match = match;
         this.bet = bet;
         this.team = team;
         this.coefficient = coefficient;
